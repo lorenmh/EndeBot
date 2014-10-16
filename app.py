@@ -31,9 +31,13 @@ def get_translations(soup):
 def get_num_translations(num, soup):
 	translations = []
 	for i in range(1, num + 1):
-		lst = soup.find(id='h%s' % i).findAll('td', {'class':'r'})
-		translation_string = '%s = %s' % (lst[0].text.strip(), lst[1].text.strip())
-		translations.append(translation_string)
+		sub_soup = soup.find(id='h%s' % i)
+		if sub_soup == None:
+			break
+		else:
+			lst = sub_soup.findAll('td', {'class':'r'})
+			translation_string = '%s = %s' % (lst[0].text.strip(), lst[1].text.strip())
+			translations.append(translation_string)
 	return translations
 
 #a s.find(id='h2').findAll('td', {'class':'r'})
