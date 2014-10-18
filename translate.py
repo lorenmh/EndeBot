@@ -1,3 +1,4 @@
+# coding=UTF-8
 import requests, urllib
 from bs4 import BeautifulSoup
 
@@ -7,7 +8,7 @@ ENDE_STR = 'en-de'
 
 NO_RESULTS = {
     'de-en': 'No results found.',
-    'en-de': 'Keine Eintr\xc3\xa4ge gefunden.',
+    'en-de': u'Keine Einträge gefunden.'
 }
 
 NUM_TRANSLATIONS = 3
