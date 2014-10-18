@@ -1,4 +1,4 @@
-import requests, re
+import requests, re, urllib
 from bs4 import BeautifulSoup
 
 BASE_EN_URI = 'http://en.wikipedia.org/wiki/'
@@ -11,10 +11,10 @@ def soup_from_url(url):
     return BeautifulSoup(r.text)
 
 def en_url(query):
-    return '%s%s' % (BASE_EN_URI, query)
+    return '%s%s' % (BASE_EN_URI, urllib.quote(query))
 
 def de_url(query):
-    return '%s%s' % (BASE_DE_URI, query)
+    return '%s%s' % (BASE_DE_URI, urllib.quote(query))
 
 def wiki(query, english=False):
     if english == False:
