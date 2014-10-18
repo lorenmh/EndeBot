@@ -58,7 +58,7 @@ class EndeBot(irc.IRCClient):
 
         elif msg.startswith(".help"):
           msg = "%s: Commands = [.ende / .de], [.deen / .en], [.w (de wikipedia)], [.w en (en wikipedia)], Repo = https://github.com/lorenmh/EndeBot" % user
-            return msg
+          return msg
 
         elif msg.startswith(self.nickname + ':'):
             msg = "%s: ich bin EndeBot.  Message '.help' for command-list" % user
