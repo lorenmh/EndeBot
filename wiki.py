@@ -36,6 +36,8 @@ def get_wiki_from_url(url):
     text = re.sub('\s*\(\s*\[.*\].*\)', '', text)
     # removes notations
     text = re.sub('\[\d*\]', '', text)
+    # removes newlines
+    text = re.sub('\\n', '', text)
     # includes link to wiki article
     text = '%s ... [%s]' % (text, url)
     return text.encode('UTF-8')
