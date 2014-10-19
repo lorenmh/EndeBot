@@ -25,20 +25,26 @@ def wiki(query, english=False):
 
 def get_wiki_from_url(url):
     soup = soup_from_url(url)
+    if soup.select(".noarticletext") != []:
+        return 'No entry found [%s]' % url
     sub_soup = soup.find(id="mw-content-text")
+    [s.extract() for s in sub_soup('table')]
     text = sub_soup.text
-    if len(text) >= 280:
-        next_space_index = text.find(' ', 280)
-        if next_space_index != -1:
-            text = text[:next_space_index]
     # removes IPA stuff
-    text = re.sub('\s*\(\/.*\/.*\)', '', text)
-    text = re.sub('\s*\(\s*\[.*\].*\)', '', text)
+    text = re.sub('\s*\(.*\[.*\].*?\)', '', text)
+    #text = re.sub('\s*\(\/.*\/.*\)', '', text)
+    #text = re.sub('\s*\(\s*\[.*\].*\)', '', text)
     # removes notations
     text = re.sub('\[\d*\]', '', text)
     # removes newlines
-    text = re.sub('\\n', ' > ', text)
+    text = re.sub('\\n[\s*\\n]+', '\n', text)
+    text = re.sub('^\s*\\n\s*', '', text)
+    text = re.sub('\\n', ' >> ', text)
     # includes link to wiki article
+    if len(text) >= 280:
+        next_space_index = text.find(' ', 280)
+        if next_space_index != -1:
+            text = text[:next_space_index] 
     text = '%s ... [%s]' % (text, url)
     return text.encode('UTF-8')
 

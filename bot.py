@@ -21,11 +21,6 @@ class EndeBot(irc.IRCClient):
         self.join(self.factory.channel)
 
     def get_message(self, user, msg):
-        yt_search = EndeBot.re_yt.search(msg)
-        
-        if yt_search:
-            return yt(yt_search.group('id'))
-
         if msg.startswith(".ende"):
             query = msg.split(".ende")[1].strip()
             if len(query) > 0:
@@ -80,6 +75,13 @@ class EndeBot(irc.IRCClient):
             return None
 
     def privmsg(self, user, channel, msg):
+        yt_search = EndeBot.re_yt.search(msg)
+        
+        if yt_search:
+            info = yt(yt_search.group('id'))
+            if info:
+                self.msg(channel, info)
+        
         user = user.split('!', 1)[0]
         msg = self.get_message(user, msg)
         if msg != None:
