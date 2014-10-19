@@ -6,9 +6,9 @@ from yt import yt
 import re
 
 class EndeBot(irc.IRCClient):
-    nickname = "EndeBot"
-
     #re_yt = re.compile("[A-Za-z0-9\_\-]{11}")
+    re_yt = re.compile("(^|\s+|\/|=)(?P<id>[A-Za-z0-9\_\-]{11})($|\s+|\/\?\&)")
+    nickname = "EndeBot"
 
     #this shit even necessary?
     def connectionMade(self):
@@ -21,12 +21,12 @@ class EndeBot(irc.IRCClient):
         self.join(self.factory.channel)
 
     def get_message(self, user, msg):
-        '''yt_search = re_yt.search(msg)
+        yt_search = EndeBot.re_yt.search(msg)
         
         if yt_search:
-            return yt(yt_search.group())'''
+            return yt(yt_search.group('id'))
 
-        if msg.startswith(".ende"):
+        elif msg.startswith(".ende"):
             query = msg.split(".ende")[1].strip()
             msg = "%s: %s" % (user, ende(query))
             return msg
@@ -99,6 +99,6 @@ class EndeBotFactory(protocol.ClientFactory):
         reactor.stop()
 
 if __name__ == "__main__":
-    f = EndeBotFactory('##deutsch')
+    f = EndeBotFactory('#deutsch')
     reactor.connectTCP("irc.freenode.net", 6667, f)
     reactor.run()
