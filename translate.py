@@ -26,10 +26,12 @@ def ende(query):
     return get_translations(ENDE_STR, url)
 
 def deen(query):
+    print 'deen'
     url = translate_url(DEEN_STR, query)
     return get_translations(DEEN_STR, url)
 
 def get_translations(translation_type, url):
+    print 'get_translations'
     soup = soup_from_url(url)
     translations = []
     for i in range(1, NUM_TRANSLATIONS + 1):

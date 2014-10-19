@@ -26,35 +26,47 @@ class EndeBot(irc.IRCClient):
         if yt_search:
             return yt(yt_search.group('id'))
 
-        elif msg.startswith(".ende"):
+        if msg.startswith(".ende"):
             query = msg.split(".ende")[1].strip()
-            msg = "%s: %s" % (user, ende(query))
-            return msg
+            if len(query) > 0:
+                msg = "%s: %s" % (user, ende(query))
+                return msgi
+            return None
 
         elif msg.startswith(".en"):
             query = msg.split(".en")[1].strip()
-            msg = "%s: %s" % (user, deen(query))
-            return msg
+            if len(query) > 0:
+                msg = "%s: %s" % (user, deen(query))
+                return msg
+            return None
 
         elif msg.startswith(".deen"):
             query = msg.split(".deen")[1].strip()
-            msg = "%s: %s" % (user, deen(query))
-            return msg
+            if len(query) > 0:
+                msg = "%s: %s" % (user, deen(query))
+                return msg
+            return None
 
         elif msg.startswith(".de"):
             query = msg.split(".de")[1].strip()
-            msg = "%s: %s" % (user, ende(query))
-            return msg
+            if len(query) > 0:
+                msg = "%s: %s" % (user, ende(query))
+                return msg
+            return None
 
         elif msg.startswith(".w en"):
             query = msg.split(".w en")[1].strip()
-            msg = "%s: %s" % (user, wiki(query, english=True))
-            return msg
+            if len(query) > 0:
+                msg = "%s: %s" % (user, wiki(query, english=True))
+                return msg
+            return None
 
         elif msg.startswith(".w"):
             query = msg.split(".w")[1].strip()
-            msg = "%s: %s" % (user, wiki(query))
-            return msg
+            if len(query) > 0:
+                msg = "%s: %s" % (user, wiki(query))
+                return msg
+            return None
 
         elif msg.startswith(".help"):
           msg = "%s: Commands = [.ende / .de], [.deen / .en], [.w (de wikipedia)], [.w en (en wikipedia)], Repo = https://github.com/lorenmh/EndeBot" % user

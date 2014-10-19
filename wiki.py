@@ -26,7 +26,7 @@ def wiki(query, english=False):
 def get_wiki_from_url(url):
     soup = soup_from_url(url)
     sub_soup = soup.find(id="mw-content-text")
-    text = sub_soup.p.text
+    text = sub_soup.text
     if len(text) >= 280:
         next_space_index = text.find(' ', 280)
         if next_space_index != -1:
@@ -37,7 +37,7 @@ def get_wiki_from_url(url):
     # removes notations
     text = re.sub('\[\d*\]', '', text)
     # removes newlines
-    text = re.sub('\\n', '', text)
+    text = re.sub('\\n', ' > ', text)
     # includes link to wiki article
     text = '%s ... [%s]' % (text, url)
     return text.encode('UTF-8')
