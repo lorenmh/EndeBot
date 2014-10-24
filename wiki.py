@@ -29,6 +29,7 @@ def get_wiki_from_url(url):
         return 'No entry found [%s]' % url
     sub_soup = soup.find(id="mw-content-text")
     [s.extract() for s in sub_soup('table')]
+    [s.extract() for s in sub_soup('div')]
     text = sub_soup.text
     # removes IPA stuff
     text = re.sub('\s*\(.*\[.*\].*?\)', '', text)
