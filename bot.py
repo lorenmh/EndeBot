@@ -13,7 +13,6 @@ def log(text):
 
 class EndeBot(irc.IRCClient):
     #re_yt = re.compile("[A-Za-z0-9\_\-]{11}")
-    re_yt = re.compile("(^|\s+|\/|=)(?P<id>[A-Za-z0-9\_\-]{11})($|\s+|\/\?\&)")
     nickname = "EndeBot"
 
     #this shit even necessary?
@@ -44,7 +43,7 @@ class EndeBot(irc.IRCClient):
             query = msg.split(".ende")[1].strip()
             if len(query) > 0:
                 msg = "%s: %s" % (user, ende(query))
-                return msgi
+                return msg
             return None
 
         elif msg.startswith(".en"):
@@ -96,22 +95,21 @@ class EndeBot(irc.IRCClient):
             log("%s:%s" % (user,msg))
             msg = "%s: ich bin EndeBot.  Message '.help' for command-list" % user
             return msg
-
-        else:
-            return None
+        
+        re_yt = re.compile("(^|\s+|\/|=)(?P<id>[A-Za-z0-9\_\-]{11})($|\s+|\/\?\&)")
+        yt_search = re_yt.search(msg)
+        if yt_search:
+             info = yt(yt_search.group('id'))
+             if info:
+                  log("%s:%s" % (user, msg))
+                  return info
+        
+        return None
 
     def privmsg(self, user, channel, msg):
         user = user.split('!', 1)[0]
         msg = self.get_message(user, msg)
-        yt_search = EndeBot.re_yt.search(msg)
-        
-        if yt_search:
-            info = yt(yt_search.group('id'))
-            if info:
-                log("%s:%s" % (user, msg))
-                self.msg(channel, info)
-                log("BOT:%s" % info)
-        
+
         if msg != None:
             if channel == self.nickname:
                 log("BOT_PRIVATE:%s" % msg)
@@ -119,11 +117,6 @@ class EndeBot(irc.IRCClient):
             else:
                 log("BOT:%s" % msg)
                 self.msg(channel, msg)
-
-    def irc_NICK(self, prefix, params):
-        old_nick = prefix.split('!')[0]
-        new_nick = params[0]
-        log("OLDNICK:%s, NEWNICK:%s" % (old_nick, new_nick))
 
     def alterCollidedNick(self, nickname):
         return nickname + "_"
